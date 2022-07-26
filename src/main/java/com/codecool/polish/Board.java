@@ -71,4 +71,17 @@ public class Board {
     public void removePawn (int x, int y){
         fields[x][y] = null;
     }
+
+    public void movePawn(int starterX, int starterY, int targetX, int targetY){
+        String movedColor = fields[starterX][starterY].getColor();
+        removePawn(starterX,starterY);
+        fields[targetX][targetY] = new Pawn(movedColor);
+    }
 }
+
+   /* output:  select pawn    a1
+    inout(a1) --> conecrt coord
+    output : select target   a3
+    input(a3) --> convert coord
+
+    */
