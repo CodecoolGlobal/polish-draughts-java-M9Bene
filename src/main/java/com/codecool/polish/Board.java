@@ -67,4 +67,8 @@ public class Board {
             }
         }
     }
+
+    public void removePawn (int x, int y){
+        fields[x][y] = null;
+    }
 }
