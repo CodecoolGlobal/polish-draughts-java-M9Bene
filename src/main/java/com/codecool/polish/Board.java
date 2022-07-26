@@ -21,7 +21,6 @@ public class Board {
                 emptyLines[0] = size/2-1;
                 emptyLines[1] = size/2;
             }
-            System.out.println(emptyLines[0]);
             int fieldCounter = 1;
             for(int x = 0; x < this.size; x ++){
                 fieldCounter++;
@@ -40,8 +39,6 @@ public class Board {
                     }
                 }
             }
-//       fields[0][0] = new Pawn("Black");
-            System.out.println(Arrays.deepToString(fields));
         }
 
     public void printBoard() {
