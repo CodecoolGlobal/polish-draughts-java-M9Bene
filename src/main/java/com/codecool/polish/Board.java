@@ -13,11 +13,36 @@ public class Board {
     }
 
     public void createPawns() {
-       fields[0][0] = new Pawn("Black");
-        fields[2][5] = new Pawn("White");
-        fields[6][2] = new Pawn("Black");
-        fields[8][8] = new Pawn("White");
-    }
+            int[] emptyLines = new int[2];
+            if (size % 2 == 1){
+                emptyLines[0] = size/2+1;
+                emptyLines[1] = 100000;
+            } else {
+                emptyLines[0] = size/2-1;
+                emptyLines[1] = size/2;
+            }
+            System.out.println(emptyLines[0]);
+            int fieldCounter = 1;
+            for(int x = 0; x < this.size; x ++){
+                fieldCounter++;
+                for (int y = 0; y < this.size; y ++){
+                    if (fieldCounter % 2 == 1){
+                        fieldCounter ++;
+                        if (x != emptyLines[0] && x != emptyLines[1]){
+                            if (x > emptyLines[0]){
+                                fields[x][y] = new Pawn("White");
+                            } else {
+                                fields[x][y] = new Pawn("Black");
+                            }
+                        }
+                    } else {
+                        fieldCounter ++;
+                    }
+                }
+            }
+//       fields[0][0] = new Pawn("Black");
+            System.out.println(Arrays.deepToString(fields));
+        }
 
     public void printBoard() {
         // HEADER
