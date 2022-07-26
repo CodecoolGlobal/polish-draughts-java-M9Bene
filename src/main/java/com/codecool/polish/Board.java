@@ -14,10 +14,35 @@ public class Board {
 
     public void createPawns() {
        fields[0][0] = new Pawn("Black");
-       System.out.println(Arrays.deepToString(fields));
+        fields[2][5] = new Pawn("White");
+        fields[6][2] = new Pawn("Black");
+        fields[8][8] = new Pawn("White");
     }
 
     public void printBoard() {
-        System.out.println(fields[0][0].getColor());
+        // HEADER
+        System.out.println();
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        System.out.print("  ");
+        for (int i=0; i<size; i++){
+            System.out.print("  " + alphabet.charAt(i));
+        }
+        for(int i=0; i<size; i++){
+            System.out.println();
+            if (i <9){
+                System.out.print(" ");
+            }
+            System.out.print(i+1);
+            for(int j=0; j<size; j++){
+              //  System.out.println(cell);
+                if (fields[i][j] == null){
+                    System.out.print("  .");
+                } else if (fields[i][j].getColor() =="Black") {
+                    System.out.print("  ●");
+                }else if (fields[i][j].getColor() =="White"){
+                    System.out.print("  ○" );
+                }
+            }
+        }
     }
 }
