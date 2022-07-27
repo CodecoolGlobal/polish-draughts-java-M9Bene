@@ -13,29 +13,27 @@ public class Board {
     }
 
     public void createPawns() {
-            int[] emptyLines = new int[2];
+//          Osszeszedjuk a nem megfelelo sorokat, ami paros magassag eseten ket sor, paratlannal 1
+            int[] emptyLines;
             if (size % 2 == 1){
-                emptyLines[0] = size/2+1;
-                emptyLines[1] = 100000;
+                emptyLines = new int[] {size/2};
             } else {
-                emptyLines[0] = size/2-1;
-                emptyLines[1] = size/2;
+                emptyLines = new int[] {size/2, size/2-1};
             }
-            int fieldCounter = 1;
+//          Vegigiteralunk a sorokon, oszlopokon, mindegyik mezot erintve
             for(int x = 0; x < this.size; x ++){
-                fieldCounter++;
                 for (int y = 0; y < this.size; y ++){
-                    if (fieldCounter % 2 == 1){
-                        fieldCounter ++;
-                        if (x != emptyLines[0] && x != emptyLines[1]){
-                            if (x > emptyLines[0]){
-                                fields[x][y] = new Pawn("White");
+                    int finalY = y;
+//                  Megnezzuk, hogy olyan sor van-e, amiben lehet babu
+                    if (!(Arrays.stream(emptyLines).anyMatch(i -> i == finalY)) && y != emptyLines[1]){
+//                      Megnezzuk, hogy 1 titltott sor van-e, ha igen, akkor fent, es lent mashogy kell indulnia
+                        if ((y+x) % 2 == 0){
+                            if (y > emptyLines[0]){
+                                fields[y][x] = new Pawn("White");
                             } else {
-                                fields[x][y] = new Pawn("Black");
+                                fields[y][x] = new Pawn("Black");
                             }
                         }
-                    } else {
-                        fieldCounter ++;
                     }
                 }
             }
