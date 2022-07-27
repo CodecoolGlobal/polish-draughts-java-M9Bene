@@ -1,15 +1,17 @@
 package main.java.com.codecool.polish;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Board {
     private int size  = 10;
     private Pawn[][] fields;
 
+    private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     public Board(int size) {
         this.fields = new Pawn[size][size];
         this.size = size;
-
     }
 
     public void createPawns() {
@@ -42,7 +44,7 @@ public class Board {
     public void printBoard() {
         // HEADER
         System.out.println();
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         System.out.print("  ");
         for (int i=0; i<size; i++){
             System.out.print("  " + alphabet.charAt(i));
@@ -69,4 +71,30 @@ public class Board {
     public void removePawn (int x, int y){
         fields[x][y] = null;
     }
+
+    public void movePawn(int starterX, int starterY, int targetX, int targetY){
+        String movedColor = fields[starterX][starterY].getColor();
+        removePawn(starterX,starterY);
+        fields[targetX][targetY] = new Pawn(movedColor);
+    }
+
+
+    public int [] convertInputCoord(String input){
+        Character firstPartInput = input.charAt(0);
+        int secondPartInput = Integer.parseInt(input.substring(1));
+        int firstConvertedCoord = alphabet.toLowerCase().indexOf(firstPartInput);
+        int secondConvertedCoord = secondPartInput - 1;
+        int [] coord = {firstConvertedCoord, secondConvertedCoord};
+        return coord;
+    }
+
+
+
 }
+
+   /* output:  select pawn    a1
+    inout(a1) --> conecrt coord
+    output : select target   a3
+    input(a3) --> convert coord
+
+    */
