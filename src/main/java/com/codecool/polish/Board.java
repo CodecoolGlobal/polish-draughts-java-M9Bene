@@ -43,8 +43,6 @@ public class Board {
                     }
                 }
             }
-        fields[5][1] = new Pawn("Black");
-
         }
 
     public void printBoard() {
@@ -69,15 +67,16 @@ public class Board {
                 }
             }
         }
+        System.out.println();
     }
 
     public void removePawn (int x, int y){
         fields[x][y] = null;
     }
 
-    public void movePawn(int starterX, int starterY, int targetX, int targetY){
-        fields[targetX][targetY] = fields[starterX][starterY];
-        removePawn(targetX, targetY);
+    public void movePawn(int[] starter, int[] target){
+        fields[target[0]][target[1]] = fields[starter[0]][starter[1]];
+        removePawn(starter[0], starter[1]);
     }
 
 
@@ -135,10 +134,10 @@ public class Board {
         ArrayList<int[]> validHits = validHits(coordinate);
         validMoves.addAll(validHits);
         validMoves.addAll(validSteps);
-        System.out.println("Valid coordinates are: ");
-        for (int i = 0; i < validMoves.size(); i++) {
-            System.out.println(Arrays.toString(validMoves.get(i)));
-        }
+//        System.out.println("Valid coordinates are: ");
+//        for (int i = 0; i < validMoves.size(); i++) {
+//            System.out.println(Arrays.toString(validMoves.get(i)));
+//        }
         return validMoves;
     }
 
@@ -146,6 +145,7 @@ public class Board {
         int x = coordinate[0];
         int y = coordinate[1];
         String currentPlayer = fields[x][y].getColor();
+//Todo use try except
 
         ArrayList<int[]> possibleMoves = new ArrayList<>();
 
@@ -190,6 +190,29 @@ public class Board {
         int y = coordinate[1];
 
         return x >= 0 && x < size && y >= 0 && y < size;
+    }
+
+    public String whoHasWon(){
+        int whites = 0;
+        int blacks = 0;
+        for(int x = 0; x < this.size; x ++){
+            for (int y = 0; y < this.size; y ++){
+                try {
+                    if (fields[x][y].getColor() == "Black"){
+                        blacks ++;
+                    } else {
+                        whites ++;
+                    }
+                } catch (Exception e){}
+            }
+        }
+        if (blacks == 0){
+            return "White";
+        } else if (whites ==0) {
+            return "Black";
+        } else {
+            return "None";
+        }
     }
 
     public ArrayList<int[]> validHits(int[] coordinate) {
