@@ -43,7 +43,8 @@ public class Board {
                     }
                 }
             }
-            fields[4][1] = new Pawn("White");
+        fields[5][1] = new Pawn("Black");
+
         }
 
     public void printBoard() {
@@ -89,7 +90,7 @@ public class Board {
         return coord;
     }
 
-    public boolean validateInput(String input) {
+    public boolean isOnBoard(String input) {
         Character firstPartInput = input.charAt(0);
         try {
             int secondPartInput = Integer.parseInt(input.substring(1));
@@ -102,6 +103,14 @@ public class Board {
             return false;
         }
 
+    }
+
+    public Boolean isEnemy(String  color, int[] coordinate) {
+        try {
+            return fields[coordinate[0]][coordinate[1]].getColor() != color;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public Boolean isMine(String  color, int[] coordinate) {
@@ -120,12 +129,20 @@ public class Board {
         }
     }
 
-    public int[][] validMove(int[] coordinate) {
-
-        return new int[0][];
+    public ArrayList<int[]> validMove(int[] coordinate) {
+        ArrayList<int[]> validMoves = new ArrayList<>();
+        ArrayList<int[]> validSteps = validSteps(coordinate);
+        ArrayList<int[]> validHits = validHits(coordinate);
+        validMoves.addAll(validHits);
+        validMoves.addAll(validSteps);
+        System.out.println("Valid coordinates are: ");
+        for (int i = 0; i < validMoves.size(); i++) {
+            System.out.println(Arrays.toString(validMoves.get(i)));
+        }
+        return validMoves;
     }
 
-    public int[][] validSteps(int[] coordinate) {
+    public ArrayList<int[]> validSteps(int[] coordinate) {
         int x = coordinate[0];
         int y = coordinate[1];
         String currentPlayer = fields[x][y].getColor();
@@ -162,10 +179,10 @@ public class Board {
         }
 
 
-        for (int i = 0; i < possibleMoves.size(); i++) {
-            System.out.println(Arrays.toString(possibleMoves.get(i)));
-        }
-        return new int[0][];
+//        for (int i = 0; i < possibleMoves.size(); i++) {
+//            System.out.println(Arrays.toString(possibleMoves.get(i)));
+//        }
+        return possibleMoves;
     }
 
     public boolean validateCoordinate(int[] coordinate) {
@@ -175,10 +192,45 @@ public class Board {
         return x >= 0 && x < size && y >= 0 && y < size;
     }
 
-    public int[][] validHits(int[] coordinate) {
+    public ArrayList<int[]> validHits(int[] coordinate) {
+        int x = coordinate[0];
+        int y = coordinate[1];
+        String currentPlayer = fields[x][y].getColor();
+        ArrayList<int[]> possibleEnemies = new ArrayList<>();
 
-        return new int[0][];
+//        We check if there are enemies next to us
+        int[] targetField;
+        int[] jumpToField;
+        // jobb lent
+        targetField = new int[]{x + 1, y + 1};
+        jumpToField = new int[]{x + 2, y + 2};
+        if (isEnemy(currentPlayer, targetField) && isEmpty(jumpToField)) {
+            possibleEnemies.add(jumpToField);
+        }
+        // bal lent
+        targetField = new int[]{x + 1, y - 1};
+        jumpToField = new int[]{x + 2, y - 2};
+        if (isEnemy(currentPlayer, targetField) && isEmpty(jumpToField)) {
+            possibleEnemies.add(jumpToField);
+        }
+        // jobb fent
+        targetField = new int[]{x - 1, y + 1};
+        jumpToField = new int[]{x - 2, y + 2};
+        if (isEnemy(currentPlayer, targetField) && isEmpty(jumpToField)) {
+            possibleEnemies.add(jumpToField);
+        }
+        // bal fent
+        targetField = new int[]{x - 1, y - 1};
+        jumpToField = new int[]{x - 2, y - 2};
+        if (isEnemy(currentPlayer, targetField) && isEmpty(jumpToField)) {
+            possibleEnemies.add(jumpToField);
+        }
+//        for (int i = 0; i < possibleEnemies.size(); i++) {
+//            System.out.println(Arrays.toString(possibleEnemies.get(i)));
+//        }
+        return possibleEnemies;
     }
+
 
 }
 
